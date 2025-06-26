@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusTech - 創新科技解決方案</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #0062cc, #0096ff);
+            padding: 1rem 2rem;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0 0.5rem;
+            font-weight: 500;
+        }
+        .navbar-nav .nav-link:hover {
+            color: white;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .btn-primary {
+            background-color: #0084ff;
+            border-color: #0084ff;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 30px;
+        }
+        .btn-primary:hover {
+            background-color: #0062cc;
+            border-color: #0062cc;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0084ff;
+            margin-bottom: 1.5rem;
+        }
+        .chat-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            overflow: hidden;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #0062cc, #0096ff);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .chat-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        .chat-icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        .chat-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+        .message-content {
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .user-message {
+            margin-left: auto;
+        }
+        .user-message .message-content {
+            background-color: #0084ff;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .assistant-message .message-content {
+            background-color: #e9e9eb;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-footer {
+            padding: 0.8rem;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+        }
+        .chat-input {
+            border-radius: 24px;
+            padding: 0.6rem 1rem;
+            box-shadow: none;
+            border: 1px solid #ddd;
+        }
+        .chat-input:focus {
+            box-shadow: none;
+            border-color: #0084ff;
+        }
+        .btn-send {
+            border-radius: 24px;
+            padding: 0.6rem 1.2rem;
+            background-color: #0084ff;
+            color: white;
+            border: none;
+            margin-left: 0.5rem;
+        }
+        .btn-send:hover {
+            background-color: #0062cc;
+        }
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            background-color: #e9e9eb;
+            border-radius: 18px;
+            margin-bottom: 1rem;
+            width: fit-content;
+            color: #666;
+            font-style: italic;
+        }
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0062cc, #0096ff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        .footer h5 {
+            color: #0084ff;
+            margin-bottom: 1.5rem;
+        }
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        .social-icons {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .social-icons a {
+            color: rgba(255, 255, 255, 0.7);
+            margin-right: 1rem;
+        }
+        .social-icons a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-microchip me-2"></i>NexusTech</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">產品</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">解決方案</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">關於我們</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">聯絡我們</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>創新科技解決方案</h1>
+            <p>NexusTech 提供尖端技術解決方案，幫助企業實現數位轉型，提升效率並創造更多價值。</p>
+            <a href="#" class="btn btn-primary">了解更多</a>
+        </div>
+    </section>
+
+    <!-- 特色產品區塊 -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>我們的產品與服務</h2>
+                <p class="lead">提供全方位的科技解決方案，滿足您的各種需求</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h4>雲端服務</h4>
+                        <p>安全可靠的雲端解決方案，幫助您的業務無縫擴展，隨時隨地存取重要資料。</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4>人工智慧</h4>
+                        <p>先進的 AI 技術，為您的業務提供智能分析、預測和自動化解決方案。</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>資安防護</h4>
+                        <p>全面的資安解決方案，保護您的業務免受各種網路威脅和資料外洩風險。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客戶見證區塊 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>客戶見證</h2>
+                <p class="lead">聽聽我們的客戶怎麼說</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">「NexusTech 的雲端解決方案幫助我們實現了業務的快速擴展，大幅提升了工作效率。」</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">張志明</h6>
+                                    <small class="text-muted">資訊長 - 台灣創新科技</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">「他們的 AI 解決方案幫助我們分析大量數據，發現了許多寶貴的業務洞察，提升了我們的決策能力。」</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">林美玲</h6>
+                                    <small class="text-muted">執行長 - 數位行銷公司</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">「NexusTech 的資安解決方案為我們提供了全面的保護，讓我們能夠安心專注於業務發展。」</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">王建國</h6>
+                                    <small class="text-muted">資安總監 - 金融科技公司</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 聊天按鈕 -->
+    <div class="chat-toggle" id="chatToggle">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- 聊天視窗 -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-title">
+                <i class="fas fa-robot chat-icon"></i> 智能客服
+            </div>
+            <button type="button" class="btn-close btn-close-white" id="chatClose"></button>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message assistant-message">
+                <div class="message-content">
+                    您好！我是 NexusTech 的智能客服助手，很高興為您服務。請問有什麼可以協助您的嗎？
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">正在輸入...</div>
+        </div>
+        
+        <div class="chat-footer">
+            <form id="chatForm" class="d-flex">
+                <input type="text" id="userInput" class="form-control chat-input" placeholder="輸入您的問題..." required>
+                <button type="submit" class="btn btn-send"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatToggle = document.getElementById('chatToggle');
+            const chatContainer = document.getElementById('chatContainer');
+            const chatClose = document.getElementById('chatClose');
+            const chatHeader = document.getElementById('chatHeader');
+            const chatForm = document.getElementById('chatForm');
+            const userInput = document.getElementById('userInput');
+            const chatBody = document.getElementById('chatBody');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            // 切換聊天視窗顯示/隱藏
+            chatToggle.addEventListener('click', function() {
+                chatContainer.style.display = 'block';
+                chatToggle.style.display = 'none';
+            });
+            
+            // 關閉聊天視窗
+            chatClose.addEventListener('click', function() {
+                chatContainer.style.display = 'none';
+                chatToggle.style.display = 'flex';
+            });
+            
+            // 提交聊天表單
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const message = userInput.value.trim();
+                if (!message) return;
+                
+                // 添加用戶訊息到聊天視窗
+                addMessage('user', message);
+                userInput.value = '';
+                
+                // 顯示打字指示器
+                typingIndicator.style.display = 'block';
+                chatBody.scrollTop = chatBody.scrollHeight;
+                
+                // 發送請求到後端
+                fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 隱藏打字指示器
+                    typingIndicator.style.display = 'none';
+                    
+                    if (data.error) {
+                        addMessage('assistant', `錯誤: ${data.error}`);
+                    } else {
+                        addMessage('assistant', data.response);
+                    }
+                })
+                .catch(error => {
+                    typingIndicator.style.display = 'none';
+                    addMessage('assistant', `發生錯誤: ${error.message}`);
+                });
+            });
+            
+            function addMessage(role, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${role}-message`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.textContent = content;
+                
+                messageDiv.appendChild(contentDiv);
+                chatBody.appendChild(messageDiv);
+                
+                // 滾動到底部
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
