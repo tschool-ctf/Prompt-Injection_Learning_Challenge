@@ -24,7 +24,7 @@ except ImportError:
 app = Flask(__name__)
 
 # 設定 Groq API 金鑰
-GROQ_API_KEY = "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"
+GROQ_API_KEY = "YOUR GROQ API KEY"
 
 
 # 系統提示詞
